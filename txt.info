@@ -1,0 +1,141 @@
+A fancy form built with html, css3 with transitions in combination
+with js, as well as SaSS which a css pre-compiler.
+Simple SaSS using variables, nest style. 
+We use node sass in this project. Requires apparently node js already
+installed.
+
+In the project, if you enter your first name, hit enter,
+it will transition you to the next field and so on...
+
+It also gives the progress bar, since there is four questions,
+the progress bar is going to go up a quarter each time. It is built
+anyways that it is going to be adaptable. So if you add more
+fields to the set of questions array, the progress ratio will automatically
+readjust. All the questions are going to be in a js array.
+
+Form vaildation to ensure that all fields are field.
+
+After submitting the form, you get a message that you will
+get an email shortly. 
+
+To start, set up SaSS to compile SaSS to regular CSS.
+We using node SaSS for this operation.
+npm init -y to create a package.json file. The y flag is added
+so I don't have to answer any questions
+
+npm i node-sass to install node sass. this will be installed
+as a dependency 
+
+We create a script in package.json called "sass" that watch w one folder for SaSS file, compiles
+it and output o the compiled css to css folder. 
+
+To test on the cli 
+npm run sass
+shows that sass directory is watched for changes, compiles to 
+css directory. 
+
+Index.html
+The id form-box is the form white rectangular area. In the finished
+project, you can't initially see the previous button, cos we hide it
+with js. Once you go to the second field then you can see the
+previous button.
+The input-group is goin to hold the label, and the actual input
+as well as the input progress, not the progress bar.
+The input progress effect will be added with css along with js.
+On line 18, the input field is basically going to be a dynamic
+field, its goin to be same input for firstname, lastname, 
+email, password. The password however is not goin to have a 
+text type. We are going to add this field dynamically using js.
+Line 19, we are not goin to have the label hard-coded, cos they
+are going to be added using js. But just for display, we have
+it there atm. 
+Line 20, input-progress is the blue line
+
+Main.css
+Roboto font size for the body and pacifico for the form heading.
+Line 15 height set to 100 view port height (vh), which takes up 
+the whole browser height-wise, no matter how big or small it is.
+Display as flex, and set the direction to vertical. If we didn't 
+have the flex-direction set that way, it is going to align the
+contents horizontally. 
+Line 23 The form is position relative, cos we will have absolute
+positioned elements inside. The transition transform is to give
+the form that shaky feel when you hit the enter button. This effect
+will be done in js. 
+
+We add a class of close, this gives the smooth fading out of
+the form after all fields has been inputted in. Notice also the
+box-shadow is set to nothing, otherwise we will get a box shadow
+in the middle of no where. Makes sense to get rid of it. Notice
+there is no close class on the html, this class will be applied 
+through js.
+
+Right button is positioned absolute so that we can move it around. 
+z-index 2 just to make sure the button is on top, moves outwards.
+
+Line 77 the opacity is set to zero, meaning that we wouldn't 
+see the input group. The content of the input-group will be brought
+in using js by setting the opacity value to 1.
+
+Line 93, at this point, the input-value e.g name overlapps with the 
+input-label (enter your name). To rectify this effect
+Once I start typing my name for example, I want the label to move
+up, input:valid + #iniput-label this means when the input is valid
+we want to style the label separately. 
+Recall its not valid at first, because from the form it is required
+Line 99, the transition gives it the smooth feel.
+
+Line 113, the input-progress width is set initially to zero because we 
+want js to do the width transition. If we set the width to 100%, we will
+get the input-progress width fixed at 100%, without the shooting
+out animation, which isnt what we want.
+
+Line 121 the progress bar width is also set to zero, same rational as above.
+
+Line 125 the error class will be input dynamically by js. If anything
+go wrong, we want to set the input progress and the icon to red.
+
+Line 19 the hard coded label value e.g enter your name will be inputted
+by js. 
+
+Main.js
+Line 5 the class pattern is added. This class is going to be a regular
+expression
+Line 6 type=password. Recall we don't have the type on the label from html.
+Line 10 shake transition effect of the form when a field is submitted.
+Line 11 Switch Time. time it takes to switch from question to question.
+
+Line 26. The first question should pop out immediately the DOM laods.
+The event listener 'DOMContentLoaded' when loads, init the function
+getQuestion. getQuestion function is going to be responsible for taking the 
+questions out of the array. 
+
+Line 31. InputLabel.innerHTML = where we want to display the actual question.
+Gets the questions from questions array, use the array key question to fetch
+the question out.
+
+Line 32 gets the type. If there is no type set the type to text.
+Line 33 gets the answer, whatever we type into the input field e.g name, email
+If there is no inputted value then the field is going to be blank.
+Line 34 focuses on the current element.
+
+Line 40. Make a decision whether the icon on the form should be an arrow or
+user icon. For the first question, it should be a user icon. If its any
+other question it should be the an arrow (the previous button). Using tenary
+operator here. If position is not zero, we want the arrow, else we want the
+user icon. 
+At this moment on the form, we can see the user icon cos by default we on
+zero position, but we can't see the first questions yet, cos we have not
+set the opacity from 0 to 1. This will be done on another function showQuestion()
+getQuestion () structures everything. showQuestion() will be used just for
+display. 
+
+Line 47. Takes the inputGroup, this has the opacity. Sets the opacity to 1
+so we can see the form's content. Recall from CSS, we added the transition
+on the width 0.6s
+Line 49. This takes care of the input progress stylish shooting or pulling ou
+
+Line 52. the hideQuestion(). Once we fill out the question, we want to hide
+the current question and then show the next question. Basically, call 
+getQuestion () again.
+
